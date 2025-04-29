@@ -1,111 +1,128 @@
-<!DOCTYPE html><html lang="ru">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CASE-BATTLE Clone</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <title>Clash Royale Demo</title>
   <style>
-    :root { --bg: #0d0d0d; --text: #f0f0f0; --accent: #00ffd1; --card: #1a1a1a; --hover: #333; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Roboto', sans-serif; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(0, 0, 0, 0.8); position: fixed; width: 100%; top: 0; z-index: 100; }
-    .logo { font-size: 24px; font-weight: 700; color: var(--accent); }
-    nav ul { list-style: none; display: flex; gap: 30px; }
-    nav a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 16px; }
-    .balance { display: flex; align-items: center; gap: 8px; font-weight: 500; }
-    .balance img { width: 24px; height: 24px; }
-    .banner { position: relative; overflow: hidden; height: 200px; margin-top: 80px; }
-    .banner img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
-    .banner .promo { position: absolute; top: 20px; left: 40px; color: var(--text); font-size: 32px; font-weight: 700; }
-    .banner .timer { position: absolute; top: 20px; right: 40px; color: var(--accent); font-size: 20px; }
-    .categories { margin: 40px; }
-    .categories h2 { font-size: 20px; margin-bottom: 10px; }
-    .cases { display: flex; overflow-x: auto; gap: 16px; padding-bottom: 10px; }
-    .case-card { background: var(--card); min-width: 200px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
-    .case-card img { width: 100%; height: 120px; object-fit: cover; }
-    .case-card .info { padding: 12px; }
-    .case-card .info h3 { font-size: 16px; margin-bottom: 6px; font-weight: 500; }
-    .case-card .info p { font-size: 14px; color: var(--accent); margin-bottom: 8px; }
-    .case-card .info button { width: 100%; padding: 10px; border: none; border-radius: 4px; background: var(--accent); color: var(--bg); font-weight: 600; cursor: pointer; transition: background 0.3s; }
-    .case-card .info button:hover { background: #00e1be; }
-    footer { margin-top: 40px; padding: 20px 40px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
-    footer .links a { color: var(--text); margin-right: 20px; text-decoration: none; }
-    footer .payments img { width: 40px; margin-right: 10px; }
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+      color: #f9c72a;
+      text-shadow: 2px 2px 0 #000, 4px 4px 10px #f39c12;
+      transform: perspective(300px) rotateX(15deg);
+    }
+
+    .donate-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .label {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .arrow {
+      font-size: 22px;
+      color: #f39c12;
+      animation: blink 1s infinite alternate;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    button {
+      background-color: #f39c12;
+      color: black;
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+    }
+
+    /* Стили для всплывающего окна */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+      background-color: #222;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px; right: 15px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">CASE-BATTLE</div>
-    <nav>
-      <ul>
-        <li><a href="#">Розыгрыши</a></li>
-        <li><a href="#">Апгрейд</a></li>
-        <li><a href="#">Контракты</a></li>
-      </ul>
-    </nav>
-    <div class="balance">
-      <img src="balance-icon.svg" alt="Баланс">
-      <span>8599</span>
-      <img src="arrow-down.svg" alt="Меню">
-    </div>
-  </header>  <div class="banner">
-    <img src="banner.jpg" alt="Промо">
-    <div class="promo">+16% на счет</div>
-    <div class="timer" id="timer">осталось 02:06:49</div>
-  </div>  <div class="categories">
-    <h2>Серийные кейсы</h2>
-    <div class="cases">
-      <div class="case-card">
-        <img src="case-zena.jpg" alt="Зена">
-        <div class="info">
-          <h3>Зена</h3>
-          <p>38 предметов | 25 ₽</p>
-          <button>Открыть кейс</button>
-        </div>
-      </div>
-      <div class="case-card">
-        <img src="case-wonder-woman.jpg" alt="Чудо-женщина">
-        <div class="info">
-          <h3>Чудо-женщина</h3>
-          <p>40 предметов | 49 ₽</p>
-          <button>Открыть кейс</button>
-        </div>
-      </div>
-      <!-- Добавьте остальные кейсы аналогично -->
-    </div>
-  </div>  <!-- Повторить блок .categories для остальных разделов: Имидж-кейсы, Фирменные кейсы и т.д. -->  <footer>
-    <div class="links">
-      <a href="#">Техподдержка</a>
-      <a href="#">Пользовательское соглашение</a>
-      <a href="#">Политика безопасности</a>
-    </div>
-    <div class="payments">
-      <img src="visa.svg" alt="Visa">
-      <img src="mastercard.svg" alt="MasterCard">
-      <img src="mir.svg" alt="Mir">
-    </div>
-  </footer>  <script>
-    // Обновление таймера
-    function startTimer(duration, display) {
-      let timer = duration, hours, minutes, seconds;
-      setInterval(function () {
-        hours = Math.floor(timer / 3600);
-        minutes = Math.floor((timer % 3600) / 60);
-        seconds = timer % 60;
-        display.textContent = `осталось ${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-        if (--timer < 0) timer = duration;
-      }, 1000);
-    }
-    window.onload = function () {
-      const timerDisplay = document.getElementById('timer');
-      // Запустить таймер на 2 часа 6 минут 49 секунд (7609 секунд)
-      startTimer(7609, timerDisplay);
 
-      document.querySelectorAll('.case-card button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          alert('Открытие кейса... Результат будет здесь.');
-        });
-      });
-    };
-  </script></body>
+  <h1>Clash Royale Demo</h1>
+
+  <p>Минимальная сумма доната: 100 ₽</p>
+
+  <div class="donate-section">
+    <div class="label">если хочешь посмотреть крик ай сюда</div>
+    <div class="arrow">→</div>
+    <button onclick="window.location.href='https://donatepay.ru/don/ТВОЙ_ЛОГИН?sum=100';">
+      волар бб
+    </button>
+  </div>
+
+  <div style="margin-top: 40px;">
+    <button onclick="document.getElementById('gallery').style.display='block'">
+      галерея клещ роял
+    </button>
+  </div>
+
+  <!-- Всплывающее окно -->
+  <div id="gallery" class="modal" onclick="this.style.display='none'">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close" onclick="document.getElementById('gallery').style.display='none'">&times;</span>
+      <img src="kartinka.png" alt="Clash Image">
+    </div>
+  </div>
+
+</body>
 </html>
