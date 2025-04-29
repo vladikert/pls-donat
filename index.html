@@ -2,69 +2,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CaseBattle Clone</title>
+  <title>CASE-BATTLE Clone</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
   <style>
-    /* Базовые стили */
-    body { margin: 0; font-family: Arial, sans-serif; background: #f2f2f2; }
-    header { background: #fff; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 24px; font-weight: bold; color: #333; }
-    nav a { margin: 0 15px; color: #333; text-decoration: none; font-weight: 500; }
-    .cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px; }
-    .case { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: center; }
-    .case img { max-width: 100%; border-radius: 4px; }
-    .case button { margin-top: 10px; padding: 10px 20px; border: none; background: #ff5a5f; color: #fff; border-radius: 4px; cursor: pointer; font-size: 16px; }
-    .animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); }
-    .animation .box { width: 300px; height: 300px; background: #111; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; }
+    :root { --bg: #0d0d0d; --text: #f0f0f0; --accent: #00ffd1; --card: #1a1a1a; --hover: #333; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Roboto', sans-serif; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(0, 0, 0, 0.8); position: fixed; width: 100%; top: 0; z-index: 100; }
+    .logo { font-size: 24px; font-weight: 700; color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 30px; }
+    nav a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 16px; }
+    .balance { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .balance img { width: 24px; height: 24px; }
+    .banner { position: relative; overflow: hidden; height: 200px; margin-top: 80px; }
+    .banner img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+    .banner .promo { position: absolute; top: 20px; left: 40px; color: var(--text); font-size: 32px; font-weight: 700; }
+    .banner .timer { position: absolute; top: 20px; right: 40px; color: var(--accent); font-size: 20px; }
+    .categories { margin: 40px; }
+    .categories h2 { font-size: 20px; margin-bottom: 10px; }
+    .cases { display: flex; overflow-x: auto; gap: 16px; padding-bottom: 10px; }
+    .case-card { background: var(--card); min-width: 200px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+    .case-card img { width: 100%; height: 120px; object-fit: cover; }
+    .case-card .info { padding: 12px; }
+    .case-card .info h3 { font-size: 16px; margin-bottom: 6px; font-weight: 500; }
+    .case-card .info p { font-size: 14px; color: var(--accent); margin-bottom: 8px; }
+    .case-card .info button { width: 100%; padding: 10px; border: none; border-radius: 4px; background: var(--accent); color: var(--bg); font-weight: 600; cursor: pointer; transition: background 0.3s; }
+    .case-card .info button:hover { background: #00e1be; }
+    footer { margin-top: 40px; padding: 20px 40px; border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+    footer .links a { color: var(--text); margin-right: 20px; text-decoration: none; }
+    footer .payments img { width: 40px; margin-right: 10px; }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">CaseBattle</div>
+    <div class="logo">CASE-BATTLE</div>
     <nav>
-      <a href="#">Главная</a>
-      <a href="#">Магазин кейсов</a>
-      <a href="#">Профиль</a>
-      <a href="#">Контакты</a>
+      <ul>
+        <li><a href="#">Розыгрыши</a></li>
+        <li><a href="#">Апгрейд</a></li>
+        <li><a href="#">Контракты</a></li>
+      </ul>
     </nav>
-  </header>  <main>
-    <section class="cases">
-      <div class="case">
-        <img src="case1.jpg" alt="Кейс 1">
-        <h3>Кейс Red Line</h3>
-        <button class="open-case">Открыть кейс</button>
+    <div class="balance">
+      <img src="balance-icon.svg" alt="Баланс">
+      <span>8599</span>
+      <img src="arrow-down.svg" alt="Меню">
+    </div>
+  </header>  <div class="banner">
+    <img src="banner.jpg" alt="Промо">
+    <div class="promo">+16% на счет</div>
+    <div class="timer" id="timer">осталось 02:06:49</div>
+  </div>  <div class="categories">
+    <h2>Серийные кейсы</h2>
+    <div class="cases">
+      <div class="case-card">
+        <img src="case-zena.jpg" alt="Зена">
+        <div class="info">
+          <h3>Зена</h3>
+          <p>38 предметов | 25 ₽</p>
+          <button>Открыть кейс</button>
+        </div>
       </div>
-      <div class="case">
-        <img src="case2.jpg" alt="Кейс 2">
-        <h3>Кейс Blue Ocean</h3>
-        <button class="open-case">Открыть кейс</button>
+      <div class="case-card">
+        <img src="case-wonder-woman.jpg" alt="Чудо-женщина">
+        <div class="info">
+          <h3>Чудо-женщина</h3>
+          <p>40 предметов | 49 ₽</p>
+          <button>Открыть кейс</button>
+        </div>
       </div>
-      <div class="case">
-        <img src="case3.jpg" alt="Кейс 3">
-        <h3>Кейс Golden Armor</h3>
-        <button class="open-case">Открыть кейс</button>
-      </div>
-      <!-- При необходимости дублируйте блок .case -->
-    </section><!-- Анимация открытия кейса -->
-<div class="animation">
-  <div class="box">Открытие...</div>
-</div>
+      <!-- Добавьте остальные кейсы аналогично -->
+    </div>
+  </div>  <!-- Повторить блок .categories для остальных разделов: Имидж-кейсы, Фирменные кейсы и т.д. -->  <footer>
+    <div class="links">
+      <a href="#">Техподдержка</a>
+      <a href="#">Пользовательское соглашение</a>
+      <a href="#">Политика безопасности</a>
+    </div>
+    <div class="payments">
+      <img src="visa.svg" alt="Visa">
+      <img src="mastercard.svg" alt="MasterCard">
+      <img src="mir.svg" alt="Mir">
+    </div>
+  </footer>  <script>
+    // Обновление таймера
+    function startTimer(duration, display) {
+      let timer = duration, hours, minutes, seconds;
+      setInterval(function () {
+        hours = Math.floor(timer / 3600);
+        minutes = Math.floor((timer % 3600) / 60);
+        seconds = timer % 60;
+        display.textContent = `осталось ${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        if (--timer < 0) timer = duration;
+      }, 1000);
+    }
+    window.onload = function () {
+      const timerDisplay = document.getElementById('timer');
+      // Запустить таймер на 2 часа 6 минут 49 секунд (7609 секунд)
+      startTimer(7609, timerDisplay);
 
-  </main>  <script>
-    // Логика открытия кейсов с простой анимацией и результатом
-    document.querySelectorAll('.open-case').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const anim = document.querySelector('.animation');
-        const box = anim.querySelector('.box');
-        anim.style.display = 'flex';
-        box.textContent = 'Открытие...';
-        setTimeout(() => {
-          const r = Math.random();
-          if (r < 0.05) box.textContent = 'Редкий скин!';
-          else if (r < 0.3) box.textContent = 'Эпический скин!';
-          else box.textContent = 'Обычный скин';
-        }, 2000);
-        setTimeout(() => anim.style.display = 'none', 4000);
+      document.querySelectorAll('.case-card button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          alert('Открытие кейса... Результат будет здесь.');
+        });
       });
-    });
+    };
   </script></body>
 </html>
