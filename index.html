@@ -31,15 +31,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
+      gap: 15px;
       flex-wrap: wrap;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .label {
-      font-size: 20px;
+      font-size: 18px;
       opacity: 0.9;
-      font-weight: bold;
+    }
+
+    .arrow {
+      font-size: 22px;
+      color: #f39c12;
+      animation: blink 1s infinite alternate;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
     }
 
     button {
@@ -68,11 +78,12 @@
 
   <p>Минимальная сумма доната: 100 ₽</p>
 
-  <!-- Секция доната -->
+  <!-- Секция кнопки -->
   <div class="donate-section">
-    <div class="label">Элитные Варвары</div>
+    <div class="label">если хочешь посмотреть крик ай сюда</div>
+    <div class="arrow">→</div>
     <button onclick="window.location.href='https://donatepay.ru/don/ТВОЙ_ЛОГИН?sum=100';">
-      Донат
+      волар бб
     </button>
   </div>
 </body>
